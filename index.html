@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Fit Steps Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .output {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #steps-chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+        }
+        #steps-chart {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Authenticate with Google</h1>
+    <button id="authorize-btn">Authorize Google Fit</button>
+    
+    <h2>Fetch Estimated Steps</h2>
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" />
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" />
+    <button id="fetch-steps-btn">Fetch Steps</button>
+    <button id="overview-btn">Get Fitness Overview</button> <!-- New button for overview -->
+
+    <div id="output" class="output"></div>
+
+    <div id="steps-chart-container">
+        <canvas id="steps-chart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script> <!-- Your existing JavaScript file -->
+</body>
+</html>

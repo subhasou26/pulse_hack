@@ -1,0 +1,225 @@
+const CLIENT_ID = '501660984139-o4f79r8dh0t7fidgjbtuot8g0ms98n63.apps.googleusercontent.com'; // Replace with your actual client ID
+const REDIRECT_URI = 'http://localhost:5500'; // Replace with your redirect URI
+const SCOPES = 'https://www.googleapis.com/auth/fitness.activity.read';
+const GEMINI_API_KEY = 'AIzaSyCnBHpvcs4ZR5xGnQze2pDpGTAJW5-n2LI'; // Replace with your actual Gemini API key
+
+let stepsData = []; // Store steps data
+let dateLabels = []; // Store date labels
+
+document.getElementById('authorize-btn').onclick = function() {
+    authenticate();
+};
+
+// Function to authenticate using OAuth2
+function authenticate() {
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+        `scope=${encodeURIComponent(SCOPES)}` +
+        `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+        `&response_type=token` +
+        `&client_id=${encodeURIComponent(CLIENT_ID)}`;
+    
+    window.location.href = authUrl; // Redirect to Google OAuth consent screen
+}
+
+// Function to parse the URL and extract the access token
+function getAccessToken() {
+    const hash = window.location.hash;
+    if (hash) {
+        const params = new URLSearchParams(hash.substring(1));
+        const accessToken = params.get('access_token');
+        return accessToken;
+    }
+    return null;
+}
+
+// Function to handle fetching steps data when button is clicked
+document.getElementById('fetch-steps-btn').onclick = function() {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+        const startDate = new Date(document.getElementById('start-date').value);
+        const endDate = new Date(document.getElementById('end-date').value);
+
+        // Validate dates
+        if (!startDate || !endDate || startDate >= endDate) {
+            alert('Please select a valid date range.');
+            return;
+        }
+
+        fetchEstimatedStepsForRange(accessToken, startDate, endDate);
+    }
+};
+
+// Fetch estimated steps for each day in the date range
+function fetchEstimatedStepsForRange(accessToken, startDate, endDate) {
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = ''; // Clear previous output
+
+    let currentDate = new Date(startDate); // Clone startDate
+    const fetchPromises = []; // Array to store fetch promises
+
+    stepsData = []; // Reset steps data
+    dateLabels = []; // Reset date labels
+
+    // Loop through each day in the range
+    while (currentDate <= endDate) {
+        const requestDate = new Date(currentDate); // Create a new Date object for each request
+
+        const startTimeMillis = requestDate.setHours(0, 0, 0, 0);
+        const endTimeMillis = requestDate.setHours(23, 59, 59, 999);
+
+        const url = 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate';
+        const requestBody = {
+            "aggregateBy": [{
+                "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+            }],
+            "bucketByTime": { "durationMillis": 86400000 }, // 1 day
+            "startTimeMillis": startTimeMillis,
+            "endTimeMillis": endTimeMillis + 1 // Include end of the day
+        };
+
+        // Create a fetch promise for each date and add it to the array
+        fetchPromises.push(
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                return {
+                    date: new Date(requestDate), // Store the date with the result
+                    stepsData: data
+                };
+            })
+            .catch(error => {
+                console.error('Error fetching estimated steps:', error);
+                return {
+                    date: new Date(requestDate), // Still store the date, even in case of error
+                    stepsData: null
+                };
+            })
+        );
+
+        // Move to the next day
+        currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
+    }
+
+    // Once all fetches are done, process and display the results in order
+    Promise.all(fetchPromises)
+        .then(results => {
+            // Sort results by date before displaying
+            results.sort((a, b) => a.date - b.date);
+
+            // Store the data for the graph and display results
+            results.forEach(result => {
+                processStepsData(result.stepsData, result.date);
+            });
+
+            // Once data is processed, generate the chart
+            createStepsChart();
+        });
+}
+
+// Function to process the data and store it in arrays
+function processStepsData(data, currentDate) {
+    const formattedDate = currentDate.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+
+    dateLabels.push(formattedDate); // Add formatted date to labels
+
+    if (data && data.bucket && data.bucket.length > 0) {
+        data.bucket.forEach(bucket => {
+            const steps = bucket.dataset[0].point[0].value[0].intVal;
+            stepsData.push(steps); // Add steps to data
+        });
+    } else {
+        stepsData.push(0); // If no data, push 0 steps
+    }
+}
+
+// Function to create the steps bar chart using Chart.js
+function createStepsChart() {
+    const ctx = document.getElementById('steps-chart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: dateLabels, // X-axis labels (dates)
+            datasets: [{
+                label: 'Estimated Steps',
+                data: stepsData, // Y-axis data (steps)
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// Function to handle fitness overview request
+// Function to handle fitness overview request
+document.getElementById('overview-btn').onclick = function() {
+    const overviewText = `Here are my steps data for the last few days: ${JSON.stringify(stepsData)}. Please provide an overview of my fitness.`; // Prepare overview request text
+    console.log("Sending overview request to Gemini API with text:", overviewText); // Log the overview text
+
+    // Make the API call to Gemini
+    fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            contents: [{
+                parts: [
+                    { text: overviewText }
+                ]
+            }]
+        })
+    })
+    .then(response => {
+        console.log("Gemini API response status:", response.status); // Log the response status
+        return response.json().then(data => {
+            console.log("Gemini API request payload:", {
+                contents: [{
+                    parts: [
+                        { text: overviewText }
+                    ]
+                }]
+            }); // Log the payload sent to Gemini
+            return { response, data }; // Return both response and data
+        });
+    })
+    .then(({ response, data }) => {
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${data.error ? data.error.message : 'Unknown error'}`); // Throw an error with detailed message
+        }
+        console.log("Gemini API response data:", data); // Log the data received from Gemini
+        // Display the Gemini response in the output div
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML += `<div><strong>Gemini Overview:</strong> ${data.contents[0].parts[0].text}</div>`;
+    })
+    .catch(error => {
+        console.error('Error fetching Gemini overview:', error);
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML += `<div style="color: red;"><strong>Error:</strong> ${error.message}</div>`; // Display the error in the output div
+    });
+};
