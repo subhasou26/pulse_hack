@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <div>
+        <canvas id="healthChart" width="400" height="200"></canvas>
+      </div>
+      
+</body>
+<script>
+    // Function to fetch health data from the backend API
+    async function fetchHealthData(userId) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/health/getHealthData/${userId}`);
+        const healthData = await response.json();
+        console.log(healthData);
+        return healthData;
+      } catch (error) {
+        console.error("Error fetching health data:", error);
+      }
+    }
+    
+    // Function to plot health data
+    async function plotHealthData(userId) {
+      const healthData = await fetchHealthData(userId);
+    
+      // Prepare the data for plotting
+      const dates = healthData.map(entry => new Date(entry.date).toLocaleDateString());
+      const weights = healthData.map(entry => entry.weight);
+      const bmis = healthData.map(entry => entry.bmi);
+      const systolic = healthData.map(entry => entry.pressure.systolic);
+      const diastolic = healthData.map(entry => entry.pressure.diastolic);
+    
+      // Create the chart
+      const ctx = document.getElementById('healthChart').getContext('2d');
+      const healthChart = new Chart(ctx, {
+        type: 'bar', // Can be 'bar', 'line', etc.
+        data: {
+          labels: dates, // X-axis (dates)
+          datasets: [
+            {
+              label: 'Weight (kg)',
+              data: weights,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 2,
+              fill: false
+            },
+            {
+              label: 'BMI',
+              data: bmis,
+              borderColor: 'rgba(153, 102, 255, 1)',
+              borderWidth: 2,
+              fill: false
+            },
+            {
+              label: 'Systolic Pressure',
+              data: systolic,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 2,
+              fill: false
+            },
+            {
+              label: 'Diastolic Pressure',
+              data: diastolic,
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 2,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      });
+    }
+    
+    // Call the function with a specific userId
+    plotHealthData('66f79a15b25e7b8256354934');  // Example user ID
+    </script>
+    
+</html>
