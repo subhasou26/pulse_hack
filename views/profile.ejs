@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script>
+        const health_data=<%-JSON.stringify(login_user.healthData)%>
+    </script>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .profile_same {
+            height: 100vh;
+            float: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #profile {
+            width: 30%;
+        }
+
+        #profile_data {
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            flex: 1; /* Allow it to grow and take available space */
+        }
+
+        #profile_image {
+			height: 200px;
+			width: 200px;
+			border-radius: 50%;
+			overflow: hidden; /* Ensures the image fits inside the circular div */
+            background-color: gray;
+		}
+        #profile_pic {
+			height: 100%;
+			width: 100%;
+			object-fit: cover; /* Ensures the image covers the container without distortion */
+		}
+
+        #user_about {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .slider-container {
+            width: 80%; /* Adjust width as needed */
+            overflow: hidden; /* Hide the scrollbar */
+        }
+
+        .slider {
+            display: flex;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory; /* Enable snapping */
+            overflow-x: auto; /* Allow horizontal scrolling */
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+
+        .slider::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari */
+        }
+
+        .slider-item {
+            min-width: calc(25% - 10px); /* Four items visible at a time with gaps */
+            flex-shrink: 0;
+            scroll-snap-align: start; /* Snap alignment */
+            margin-right: 10px; /* Space between items */
+            cursor: pointer; /* Change cursor to pointer */
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+            height: 100px; /* Fixed height for cards */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-section {
+            position: fixed; /* Fixed position for the bottom input section */
+            bottom: 20px; /* Distance from the bottom */
+            left: 50%;
+            transform: translateX(-50%); /* Center the input section */
+            width: 50vw;
+        }
+
+        #input {
+            height: 5vh;
+            width: 40vw;
+			margin-left:0%;
+        }
+
+        #content-display {
+			margin-top: 20px;
+			text-align: center;
+			font-size: 1.2em;
+			color: #333;
+			width: 80%;
+			height: 400px;
+		}
+
+		.canvas-container {
+			width: 100%; /* Width of the visible canvas container */
+			overflow-x: auto; /* Allow horizontal scrolling */
+			white-space: nowrap; /* Ensure that the content doesn't wrap */
+		}
+
+		canvas {
+			width: 1200px; /* Set a larger width for horizontal scrolling */
+			height: 600px; /* Set fixed height */
+			background-color: #f9f9f9;
+		}
+
+    </style>
+    <!-- Include Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="clearfix">
+        <div id="profile_image">
+           
+        </div>
+            <div id="user_about">
+                <h3><%=login_user.name%></h3>
+                <form action="http://localhost:5000/api/health/show" method="get">
+              <button type="submit">
+                Input new data
+              </button> 
+            </form>
+            <a href="http://localhost:5000/api/auth/fitness">Get wearable </a>
+            <br>
+            <a href="http://localhost:5000/api/health/prediction">Prediction </a>
+            </div>
+        </div>
+        <div id="profile_data" class="profile_same">
+            <!-- Scrollable Slider Section -->
+            <div class="slider-container">
+                <div class="slider" id="slider">
+                    <div class="slider-item" onclick="updateContent('Health Issue 1')">
+                        <div class="card">Weight</div>
+                    </div>
+                    <div class="slider-item" onclick="updateContent('Health Issue 2')">
+                        <div class="card">BMI</div>
+                    </div>
+                    <div class="slider-item" onclick="updateContent('Health Issue 3')">
+                        <div class="card">Pressure</div>
+                    </div>
+                    <div class="slider-item" onclick="updateContent('Health Issue 4')">
+                        <div class="card">Sugar</div>
+                    </div>
+                    <div class="slider-item" onclick="updateContent('Health Issue 5')">
+                        <div class="card">Cholesterol</div>
+                    </div>
+                    
+                </div>
+                <div id="content-display">
+                    Click on a health issue to see the graph.
+                </div>
+                <div class="input-section">
+                    <input type="text" id="input" placeholder="Enter your problem..." />
+                    <button type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const helth = health_data;
+
+const slider = document.getElementById('slider');
+
+// Scroll event for the slider
+slider.addEventListener('wheel', (event) => {
+    event.preventDefault(); // Prevent default scrolling
+    slider.scrollLeft += event.deltaY; // Scroll horizontally
+});
+
+// Create an empty chart variable to store the current chart instance
+let currentChart = null;
+
+// Function to update content and show chart based on the selected health issue
+function updateContent(issueName) {
+    const contentDisplay = document.getElementById('content-display');
+
+    // Clear previous chart if exists
+    if (currentChart) {
+        currentChart.destroy();
+    }
+
+    // Create a new canvas element for the chart
+    contentDisplay.innerHTML = `<canvas id="myChart"> </canvas>`;
+
+    // Get the selected data based on the health issue
+    const dates = helth.map(entry => new Date(entry.date).toLocaleDateString());
+    let chartLabel = '';
+    let chartData = [];
+
+    if (issueName === 'BMI') {
+        chartLabel = 'BMI';
+        chartData = helth.map(entry => entry.bmi);
+    } else if (issueName === 'Weight') {
+        chartLabel = 'Weight (kg)';
+        chartData = helth.map(entry => entry.weight);
+    } else if (issueName === 'Pressure') {
+        chartLabel = 'Systolic Pressure (mm Hg)';
+        chartData = helth.map(entry => entry.pressure.systolic);
+    } else if (issueName === 'Sugar') {
+        chartLabel = 'Fasting Sugar (mg/dL)';
+        chartData = helth.map(entry => entry.sugar.fasting);
+    } else if (issueName === 'Cholesterol') {
+        chartLabel = 'Total Cholesterol (mg/dL)';
+        chartData = helth.map(entry => entry.cholesterol.total);
+    }
+
+    // Create a new chart for the selected health issue
+    const ctx = document.getElementById('myChart').getContext('2d');
+    currentChart = new Chart(ctx, {
+        type: 'bar', // You can change this to 'bar' or any other chart type
+        data: {
+            labels: dates, // X-axis (dates)
+            datasets: [{
+                label: chartLabel,
+                data: chartData,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+}
+
+// Call updateContent() when user clicks on the respective card
+function setupSlider() {
+    document.querySelectorAll('.slider-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const healthIssue = this.querySelector('.card').textContent;
+            updateContent(healthIssue);
+        });
+    });
+}
+
+// Initialize slider setup when the DOM is loaded
+document.addEventListener('DOMContentLoaded', setupSlider);
+    </script>
+</body>
+</html>

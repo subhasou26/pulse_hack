@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Example</title>
+</head>
+<body>
+    <h1>Upload File</h1>
+    <input type="file" id="fileInput">
+    <div id="fileDetails"></div>
+
+    <script>
+        document.getElementById("fileInput").addEventListener("change", function(event) {
+            const file = event.target.files[0]; // Get the first file uploaded
+
+            if (file) {
+                const fileName = file.name; // Get the file name
+                const fileType = file.type; // Get the file type
+                const fileSize = file.size; // Get the file size in bytes
+
+                // Simulated "full path"
+                const simulatedPath = "/path/to/uploads/" + fileName;
+
+                // Log details to the console
+                console.log("File Name:", fileName);
+                console.log("File Type:", fileType);
+                console.log("File Size:", fileSize, "bytes");
+                console.log("Simulated Full Path:", simulatedPath);
+
+                // Display file details in the webpage
+                document.getElementById("fileDetails").innerHTML = `
+                    <p><strong>File Name:</strong> ${fileName}</p>
+                    <p><strong>File Type:</strong> ${fileType}</p>
+                    <p><strong>File Size:</strong> ${fileSize} bytes</p>
+                    <p><strong>Simulated Full Path:</strong> ${simulatedPath}</p>
+                `;
+            } else {
+                console.log("No file selected.");
+            }
+        });
+    </script>
+</body>
+</html>

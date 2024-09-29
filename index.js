@@ -1,5 +1,6 @@
 
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const path = require("path");
@@ -12,7 +13,7 @@ dotenv.config();
 
 
 const app = express();
-
+app.use(cors());
 
 connectDB();
 app.set("view engine", "ejs");
@@ -28,7 +29,10 @@ app.use(cookieParser());
 
 app.use("/api/auth",require('./router/auth'));
 app.use("/api/health",require("./router/health_data"));
-app.get('/', (req, res) => res.send('Welcome to med friend'));
+app.use("/api/chat",require("./router/chatBot"));
+app.get('/',(req,res)=>{
+    res.render("test.ejs");
+});
 
 
 

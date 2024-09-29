@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Health Data</title>
+</head>
+<body>
+
+    <h2>Update Health Data</h2>
+    <form id="updateHealthDataForm">
+        <label for="email">Email</label><br>
+        <input type="text" id="userId" name="email" required><br><br>
+
+        <label for="age">Age:</label><br>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <label for="height">Height (in cm):</label><br>
+        <input type="number" id="height" name="height" required><br><br>
+
+        <label for="weight">Weight (in kg):</label><br>
+        <input type="number" id="weight" name="weight" required><br><br>
+
+        <label for="bmi">BMI:</label><br>
+        <input type="number" id="bmi" name="bmi" step="0.01" required><br><br>
+
+        <h3>Blood Pressure</h3>
+        <label for="systolic">Systolic:</label><br>
+        <input type="number" id="systolic" name="pressure[systolic]" required><br><br>
+
+        <label for="diastolic">Diastolic:</label><br>
+        <input type="number" id="diastolic" name="pressure[diastolic]" required><br><br>
+
+        <h3>Blood Sugar</h3>
+        <label for="fasting">Fasting:</label><br>
+        <input type="number" id="fasting" name="sugar[fasting]" required><br><br>
+
+        <label for="postMeal">Post Meal:</label><br>
+        <input type="number" id="postMeal" name="sugar[postMeal]" required><br><br>
+
+        <h3>Cholesterol</h3>
+        <label for="totalCholesterol">Total Cholesterol:</label><br>
+        <input type="number" id="totalCholesterol" name="cholesterol[total]" required><br><br>
+
+        <label for="hdl">HDL:</label><br>
+        <input type="number" id="hdl" name="cholesterol[hdl]" required><br><br>
+
+        <label for="ldl">LDL:</label><br>
+        <input type="number" id="ldl" name="cholesterol[ldl]" required><br><br>
+
+        <label for="triglycerides">Triglycerides:</label><br>
+        <input type="number" id="triglycerides" name="cholesterol[triglycerides]" required><br><br>
+
+        <button type="submit">Update Health Data</button>
+    </form>
+
+    <script>
+        document.getElementById('updateHealthDataForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = {
+                email: document.getElementById('userId').value,
+                age: document.getElementById('age').value,
+                height: document.getElementById('height').value,
+                weight: document.getElementById('weight').value,
+                bmi: document.getElementById('bmi').value,
+                pressure: {
+                    systolic: document.getElementById('systolic').value,
+                    diastolic: document.getElementById('diastolic').value
+                },
+                sugar: {
+                    fasting: document.getElementById('fasting').value,
+                    postMeal: document.getElementById('postMeal').value
+                },
+                cholesterol: {
+                    total: document.getElementById('totalCholesterol').value,
+                    hdl: document.getElementById('hdl').value,
+                    ldl: document.getElementById('ldl').value,
+                    triglycerides: document.getElementById('triglycerides').value
+                }
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/api/health/updateHealthData', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Health data updated successfully');
+                    window.location.href='/api/auth/login'
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error updating health data:', error);
+                alert('An error occurred while updating health data');
+            }
+        });
+    </script>
+
+</body>
+</html>

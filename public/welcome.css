@@ -1,0 +1,113 @@
+#welcomeSection {
+            margin-top: -10px;
+            display: none; /* Initially hidden */
+            text-align: center;
+            margin: 20px; /* Margin for spacing */
+            position: fixed; /* Fixed position for top right corner */
+            top: 10px; /* Distance from the top */
+            right: 10px; /* Distance from the right */
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            animation: glow 1.5s infinite alternate; /* Oscillating glow effect */
+			/*position: relative; /* Position context for z-index */
+			z-index: 20;
+        }
+#profile{
+	position: fixed; /* Fixed position for top right corner */
+            top: 10px; /* Distance from the top */
+            right: 10px;
+			height:10vh;
+			width:10vw;
+			opacity:0;
+}
+/* Ensure other sections have lower z-index values */
+#entry, #aboutus_registered, #services_we_provide, #contact {
+    z-index: 10; /* Lower z-index for these sections */
+}
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(52, 152, 219, 1);
+            }
+        }
+
+        @keyframes glideDown {
+            0% {
+                transform: translateY(-20px); /* Start slightly above */
+                opacity: 0; /* Start hidden */
+            }
+            100% {
+                transform: translateY(0); /* End at original position */
+                opacity: 1; /* Fade in */
+            }
+        }
+
+        #signupButton {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+            animation: dimming 1.5s infinite alternate;
+        }
+
+        @keyframes dimming {
+            0% {
+                background-color: #3498db;
+                box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+            }
+            100% {
+                background-color: #2980b9;
+                box-shadow: 0 0 20px rgba(41, 128, 185, 1);
+            }
+        }
+
+        .emoji {
+            font-size: 50px;
+            margin-top: 10px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+			display:block;
+			align-items:center;
+            width: 50%; /* Adjusted width for better visibility */
+            height: 15px;
+            border-radius: 5px;
+            background: #ccc;
+            outline: none;
+            margin-top: 10px;
+			margin-left:30%;
+            transition: background 1s;
+        }
+
+        .slider:hover {
+            background: #aaa;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }

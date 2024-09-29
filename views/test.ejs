@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="navbar.css">
+	<link rel="stylesheet" href="welcome.css">
+	<link rel="stylesheet" href="aboutus_registered.css">
+	<link rel="stylesheet" href="services_we_provide.css">
+    <style>
+		.same{
+			display:flex;
+			height:100vh;
+			border:1px solid black;
+			justify-content:center;
+			align-items:center;
+		}
+		#contacts{
+			display:flex;
+			align-items:center;
+			justify-content:center;
+		}
+    </style>    
+</head>
+<body>
+    <div id="entry" class="same">
+			<div id="navBar">
+				<a href="#">Home</a>
+				<a href="#">About</a>
+				<a href="#">Services We Provide</a>
+				<a href="#">Contact Us</a>
+				<a href="#">Help</a>
+			</div>
+
+			<div id="loadingScreen">
+				<div id="loadingMessage">Please wait, loading...</div>
+				<div id="progressImage"></div> <!-- Image that fills as loading progresses -->
+				<div id="percentage">0%</div> <!-- Percentage display below the loading image -->
+				<div id="leaf"></div> <!-- Leaf animation -->
+			</div>
+			<div id="newImage">
+				<video autoplay loop muted class="background-video1">
+						<source src="entry.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+				</video>
+			</div> 
+			<div id="profile"> profile</div>
+			<div id="welcomeSection">
+				<h2>Hello User!</h2>
+				<div class="emoji">👋</div> 
+				<button id="signupButton"><a href="http://localhost:5000/api/auth/login">Sign Up</a></button> 
+				<input type="range" class="slider" id="themeSlider" min="0" max="1" step="1" value="0"> 
+				<p>light/dark mode</p>
+			</div>
+	</div>
+	<div id="services_we_provide" class="same">
+			<div id="rotating-box"></div>
+			<div id="description">
+				<h2 >Analyse now.......</h2>
+			</div>
+			<div id="servicebox">
+				<div class="slider-item">
+					<video autoplay loop muted class="background-video">
+						<source src="skin.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+				</div>
+				<div class="slider-item">
+				<video autoplay loop muted class="background-video">
+						<source src="eye.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+				</div>
+				<div class="slider-item">
+					<video autoplay loop muted class="background-video">
+						<source src="diabetes.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+				</div>
+				<div class="slider-item">
+					<video autoplay loop muted class="background-video">
+						<source src="generalissue.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+				</div>
+			</div>
+	</div>
+	<div id="aboutus_registered" class="same">
+			<div class="rotating-background"></div>
+			 <div class="about-container">
+			<div id="aboutSection">
+				<h2>About Us</h2>
+				<p>We provide quality services and products that enrich your life.</p>
+			</div>
+				<div class="background-div"></div>
+			</div>
+			<div class="registered-container">
+			<div id="registeredUserSection">
+				<h2>Registered Users</h2>
+				<p>Join our community of users. List of registered users appears here.</p>	
+			</div>
+				<div class="background-div"></div>
+			</div>
+	</div>			
+	</div>
+	<div id="reviews" class="same">
+		<div id="reviewdesc">
+				<h2 >Reviews.......</h2>
+			</div>
+		<div id="reviewbox">
+				<div class="review-item"></div>
+				<div class="review-item"></div>
+				<div class="review-item"></div>
+				<div class="review-item"></div>
+			</div>
+	</div>
+	<div id="contact" class="same">
+			<div class="contact-item">
+					<video autoplay loop muted class="background-video">
+						<source src="contact.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+			</div>
+			<div id="aboutSection">
+				<h2>Contact us:</h2>
+			</div>
+	</div>
+	<script src="primary.js"></script>
+</body>
+</html>

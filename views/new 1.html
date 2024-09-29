@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Animation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="welcome.css">
+	<link rel="stylesheet" href="navbar.css">
+	<style>
+		#just_checkit {
+			display: none; /* Initially hidden */
+			font-size: 20vh; /* Large text size */
+			text-align: center;
+			border:1px solid black;
+			
+		}
+
+
+	</style>
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <div id="navBar">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services We Provide</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Help</a>
+    </div>
+
+    <div id="loadingScreen">
+        <div id="loadingMessage">Please wait, loading...</div>
+        <div id="progressImage"></div> <!-- Image that fills as loading progresses -->
+        <div id="percentage">0%</div> <!-- Percentage display below the loading image -->
+        <div id="leaf"></div> <!-- Leaf animation -->
+    </div>
+
+	<div id="home_page">
+		<div id="just_checkit">Sample text</div> <!-- New image after leaf animation -->
+		<div id="newImage"></div> <!-- New image after leaf animation -->
+		<p>hello user</p>
+		<!-- New About and Registered User sections -->
+	</div>
+	
+    <!-- New section that appears after animation -->
+    <div id="welcomeSection">
+        <h2>Hello User!</h2>
+        <div class="emoji">👋</div> <!-- Waving hand emoji -->
+        <button id="signupButton">Sign Up</button> <!-- Signup button with dimming light -->
+        <input type="range" class="slider" id="themeSlider" min="0" max="1" step="1" value="0"> <!-- Slider moved below -->
+        <p>light/dark mode</p>
+    </div>
+
+    <script>
+        const progressImage = document.getElementById('progressImage');
+        const percentageDisplay = document.getElementById('percentage');
+        const leaf = document.getElementById('leaf');
+        const newImage = document.getElementById('newImage');
+        const welcomeSection = document.getElementById('welcomeSection');
+        const themeSlider = document.getElementById('themeSlider');
+        const navBar = document.getElementById('navBar');
+		const just_checkit = document.getElementById('just_checkit');
+        const aboutSection = document.getElementById('aboutSection');
+        const registeredUserSection = document.getElementById('registeredUserSection');
+        
+        let progress = 0;
+        const loadingInterval = setInterval(() => {
+            progress += 1; // Increase progress by 1%
+            progressImage.style.filter = `grayscale(${100 - progress}%)`; // Remove grayscale as progress increases
+            percentageDisplay.textContent = progress + '%'; // Update percentage display
+
+            if (progress >= 100) {
+                clearInterval(loadingInterval);
+                
+                // Hide loading screen immediately
+                document.getElementById('loadingScreen').style.display = 'none';
+
+                // Show the leaf and trigger its animation
+                leaf.style.opacity = 1;
+                leaf.style.transform = 'translate(-50%, -50%) scale(1)'; // Ensure the leaf starts at scale 1 before animation
+                leaf.style.animation = 'grow 2s ease forwards, disappear 1s ease 2s forwards'; // Trigger grow and disappear animation
+
+                // Immediately show the new image and start its animation
+                newImage.style.opacity = 1; // Fade in new image
+                newImage.style.transition = 'opacity 2s ease'; // Ensure smooth opacity transition
+
+                // Show welcome section and nav bar after the image fades in
+                setTimeout(() => {
+                    welcomeSection.style.display = 'block'; // Display welcome section after image appears
+                    welcomeSection.style.animation = 'glideDown 1s ease forwards'; // Glide down effect
+					just_checkit.style.display = 'block'; 
+					just_checkit.style.animation = 'glideDown 1s ease forwards'; 
+					
+                    // Show nav bar after the new image animation
+                    navBar.style.display = 'flex'; // Show navigation bar
+
+                    // Show "About" and "Registered User" sections after image has loaded
+
+                }, 2000); // Delay for welcome section and nav bar
+            }
+        }, 50); // Interval for loading
+
+        themeSlider.addEventListener('input', (e) => {
+            if (e.target.value == 1) {
+                document.body.style.backgroundColor = '#333';
+                welcomeSection.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                welcomeSection.style.color = 'white';
+            } else {
+                document.body.style.backgroundColor = '#f0f8ff';
+                welcomeSection.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                welcomeSection.style.color = 'black';
+            }
+        });
+    </script>
+</body>
+</html>

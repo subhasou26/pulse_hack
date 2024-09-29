@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup and Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 45vw;
+			
+        }
+        form {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 20px; /* Add space between left and right sections */
+		}
+        form h2 {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            margin-bottom: 8px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .left-section {
+            width: 48%;
+			
+        }
+        .right-section {
+			width: 48%;
+			border-left: 1px solid black;
+			//margin-left: 40px; /* Adjust the margin to create horizontal space */
+		}
+        .full-width {
+            width: 100%;
+        }
+        .button-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        button {
+            width: 50%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .login-link {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Signup Form -->
+        <form id="signupForm">
+            <h2>Signup</h2>
+
+            <div class="left-section">
+				
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+				
+				<label for="contactNumber">Contact Number</label>
+                <input type="tel" id="contactNumber" placeholder="Enter your contact number" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+
+                <label for="password">Create Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                
+            </div>
+
+            <div class="right-section">
+				<label for="age">Age (in years)</label>
+                <input type="number" id="age" placeholder="Enter your age" required>
+
+                <label for="height">Height (in cm)</label>
+                <input type="number" id="height" placeholder="Enter your height" required>
+
+                <label for="weight">Weight (in kg)</label>
+                <input type="number" id="weight" placeholder="Enter your weight" required>
+
+                <label for="blood-group">Blood Group</label>
+                <select id="blood-group" name="blood-group" required>
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
+                </select>
+            </div>
+
+            <div class="button-container full-width">
+                <button type="submit">Create User</button>
+            </div>
+
+            <div class="login-link full-width">
+                <a href="#" onclick="showLoginForm()">Already have an account? Login</a><br>
+                <a href="#" onclick="showAdminLoginForm()">Admin Login</a>
+            </div>
+        </form>
+
+        <!-- User Login Form -->
+        <form id="loginForm" class="hidden">
+            <h2>User Login</h2>
+            <label for="userid">User ID</label>
+            <input type="text" id="userid" placeholder="Enter your user ID" required>
+            
+            <label for="userPassword">Password</label>
+            <input type="password" id="userPassword" placeholder="Enter your password" required>
+            
+            <div class="button-container full-width">
+                <button type="submit">Login</button>
+            </div>
+            
+            <div class="login-link full-width">
+                <a href="#" onclick="showSignupForm()">Go back to Signup</a><br>
+                <a href="#" onclick="showAdminLoginForm()">Admin Login</a>
+            </div>
+        </form>
+
+        <!-- Admin Login Form -->
+        <form id="adminLoginForm" class="hidden">
+            <h2>Admin Login</h2>
+            <label for="adminID">Admin ID</label>
+            <input type="text" id="adminID" placeholder="Enter your admin ID" required>
+            
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter your password" required>
+            
+            <div class="button-container full-width">
+                <button type="submit">Admin Login</button>
+            </div>
+
+            <div class="login-link full-width">
+                <a href="#" onclick="showSignupForm()">Go back to Signup</a><br>
+                <a href="#" onclick="showLoginForm()">User Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+
+        function showSignupForm() {
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            adminLoginForm.classList.add('hidden');
+        }
+
+        function showLoginForm() {
+            signupForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            adminLoginForm.classList.add('hidden');
+        }
+
+        function showAdminLoginForm() {
+            signupForm.classList.add('hidden');
+            loginForm.classList.add('hidden');
+            adminLoginForm.classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .card {
+            width: 300px;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .preview-section {
+            margin-bottom: 20px;
+        }
+
+        #image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            display: none; /* Hidden by default */
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .analysis-section {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #analysis-result {
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Skin Analysis</h2>
+        <div class="upload-section">
+            <label for="file-input" class="upload-btn">Upload File</label>
+            <input type="file" id="file-input" accept="image/*" onchange="handleFileUpload(event)">
+        </div>
+
+        <!-- Image Preview Section -->
+        <div class="preview-section">
+            <h3>Preview</h3>
+            <img id="image-preview" src="" alt="Image Preview">
+        </div>
+
+        <!-- Analysis Section -->
+        <div class="analysis-section">
+            <h3>Analysis</h3>
+            <p id="analysis-result">No file uploaded yet.</p>
+        </div>
+    </div>
+
+    <script>
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                
+                // Display the file name in the analysis section
+                document.getElementById('analysis-result').textContent = `File Uploaded: ${file.name}`;
+
+                // When file is loaded, display the image preview
+                reader.onload = function(e) {
+                    const preview = document.getElementById('image-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block'; // Show the preview
+                };
+                
+                // Read the image file as a Data URL
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+</body>
+</html>

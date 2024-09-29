@@ -6,10 +6,10 @@ const {auth}=require("../middleware/auth");
 // Update user's health data after signup
 router.post('/updateHealthData', auth,async (req, res) => {
     try {
-      const { userId, age, height, weight, bmi, pressure, sugar, cholesterol } = req.body;
-  
+      const { email, age, height, weight, bmi, pressure, sugar, cholesterol } = req.body;
+      console.log(req.body)
       // Find user by ID
-      const user = await UserHealthRecord.findById(userId);
+      const user = await UserHealthRecord.findOne({email})
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -49,7 +49,10 @@ router.post('/updateHealthData', auth,async (req, res) => {
 
   // Fetch user health data
   router.get("/show",(req,res)=>{
-    res.render("chart.ejs");
+    res.render("update_health.ejs");
+  })
+  router.get("/prediction",(req,res)=>{
+    res.render("form.ejs");
   })
 router.get('/getHealthData/:userId', async (req, res) => {
     try {

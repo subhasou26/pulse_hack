@@ -1,0 +1,54 @@
+/* Navigation bar styles */
+		#navBar {
+			position: fixed;
+			top: 0;
+			width: 50%; /* Reduced width */
+			background: rgba(0, 0, 0, 0.5); /* Transparent background */
+			color: white;
+			padding: 10px;
+			display: none; /* Hidden initially */
+			justify-content: space-around;
+			font-family: Arial, sans-serif;
+			z-index: 1000; /* Ensure the navbar is above all content */
+			margin: 0 auto; /* Center the navbar horizontally */
+			left: 0;
+			right: 0; /* Ensure it's centered */
+			border-radius: 10px;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add initial shadow */
+			animation: glowCircle 4s linear infinite; /* Add circular glowing animation */
+		}
+
+		#navBar a {
+			color: white;
+			text-decoration: none;
+			padding: 10px 15px;
+			font-size: 18px;
+		}
+
+		#navBar a:hover {
+			background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
+		}
+
+		/* Circular glowing animation */
+		@keyframes glowCircle {
+			0% {
+				box-shadow: 0 0 10px 5px rgba(41, 128, 185, 0.7), 
+							inset 0 0 10px rgba(41, 128, 185, 0.7);
+			}
+			25% {
+				box-shadow: 0 0 20px 10px rgba(39, 174, 96, 0.7), 
+							inset 0 0 20px rgba(39, 174, 96, 0.7);
+			}
+			50% {
+				box-shadow: 0 0 30px 15px rgba(241, 196, 15, 0.7), 
+							inset 0 0 30px rgba(241, 196, 15, 0.7);
+			}
+			75% {
+				box-shadow: 0 0 40px 20px rgba(231, 76, 60, 0.7), 
+							inset 0 0 40px rgba(231, 76, 60, 0.7);
+			}
+			100% {
+				box-shadow: 0 0 50px 25px rgba(41, 128, 185, 0.7), 
+							inset 0 0 50px rgba(41, 128, 185, 0.7);
+			}
+		}

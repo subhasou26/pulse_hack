@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .question-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Symptom Checker</h1>
+
+    <form id="symptomForm">
+        <!-- Skin-related Symptoms -->
+        <div class="question-group" id="question_group">
+            <h3>Skin Issues</h3>
+            <label><input type="checkbox" name="symptoms" value="itching"> Itching</label>
+            <label><input type="checkbox" name="symptoms" value="skin_rash"> Skin Rash</label>
+            <label><input type="checkbox" name="symptoms" value="nodal_skin_eruptions"> Nodal Skin Eruptions</label>
+            <label><input type="checkbox" name="symptoms" value="ulcers_on_tongue"> Ulcers on Tongue</label>
+            <label><input type="checkbox" name="symptoms" value="muscle_wasting"> Muscle Wasting</label>
+            <label><input type="checkbox" name="symptoms" value="yellowish_skin"> Yellowish Skin</label>
+            <label><input type="checkbox" name="symptoms" value="dark_urine"> Dark Urine</label>
+            <label><input type="checkbox" name="symptoms" value="yellowing_of_eyes"> Yellowing of Eyes</label>
+            <label><input type="checkbox" name="symptoms" value="red_spots_over_body"> Red Spots over Body</label>
+            <label><input type="checkbox" name="symptoms" value="dischromic_patches"> Dischromic Patches</label>
+            <label><input type="checkbox" name="symptoms" value="blister"> Blisters</label>
+            <label><input type="checkbox" name="symptoms" value="skin_peeling"> Skin Peeling</label>
+            <label><input type="checkbox" name="symptoms" value="silver_like_dusting"> Silver-like Dusting</label>
+            <label><input type="checkbox" name="symptoms" value="small_dents_in_nails"> Small Dents in Nails</label>
+            <label><input type="checkbox" name="symptoms" value="inflammatory_nails"> Inflammatory Nails</label>
+            <label><input type="checkbox" name="symptoms" value="red_sore_around_nose"> Red Sore Around Nose</label>
+            <label><input type="checkbox" name="symptoms" value="yellow_crust_ooze"> Yellow Crust Ooze</label>
+        </div>
+
+        <!-- Digestive Issues -->
+        <div class="question-group">
+            <h3>Digestive Issues</h3>
+            <label><input type="checkbox" name="symptoms" value="stomach_pain" class="check_element"> Stomach Pain</label>
+            <label><input type="checkbox" name="symptoms" value="acidity" class="check_element"> Acidity</label>
+            <label><input type="checkbox" name="symptoms" value="vomiting" class="check_element"> Vomiting</label>
+            <label><input type="checkbox" name="symptoms" value="burning_micturition" class="check_element"> Burning Micturition</label>
+            <label><input type="checkbox" name="symptoms" value="spotting_urination" class="check_element"> Spotting Urination</label>
+            <label><input type="checkbox" name="symptoms" value="diarrhoea"> Diarrhoea</label>
+            <label><input type="checkbox" name="symptoms" value="constipation"> Constipation</label>
+            <label><input type="checkbox" name="symptoms" value="abdominal_pain"> Abdominal Pain</label>
+            <label><input type="checkbox" name="symptoms" value="nausea"> Nausea</label>
+            <label><input type="checkbox" name="symptoms" value="loss_of_appetite"> Loss of Appetite</label>
+            <label><input type="checkbox" name="symptoms" value="passage_of_gases"> Passage of Gases</label>
+            <label><input type="checkbox" name="symptoms" value="belly_pain"> Belly Pain</label>
+            <label><input type="checkbox" name="symptoms" value="stomach_bleeding"> Stomach Bleeding</label>
+            <label><input type="checkbox" name="symptoms" value="distention_of_abdomen"> Distention of Abdomen</label>
+        </div>
+
+        <!-- Respiratory Issues -->
+        <div class="question-group">
+            <h3>Respiratory Issues</h3>
+            <label><input type="checkbox" name="symptoms" value="continuous_sneezing"> Continuous Sneezing</label>
+            <label><input type="checkbox" name="symptoms" value="cough"> Cough</label>
+            <label><input type="checkbox" name="symptoms" value="breathlessness"> Breathlessness</label>
+            <label><input type="checkbox" name="symptoms" value="high_fever"> High Fever</label>
+            <label><input type="checkbox" name="symptoms" value="sinus_pressure"> Sinus Pressure</label>
+            <label><input type="checkbox" name="symptoms" value="runny_nose"> Runny Nose</label>
+            <label><input type="checkbox" name="symptoms" value="congestion"> Congestion</label>
+            <label><input type="checkbox" name="symptoms" value="malaise"> Malaise</label>
+            <label><input type="checkbox" name="symptoms" value="fluid_overload"> Fluid Overload</label>
+            <label><input type="checkbox" name="symptoms" value="phlegm"> Phlegm</label>
+            <label><input type="checkbox" name="symptoms" value="throat_irritation"> Throat Irritation</label>
+        </div>
+
+        <!-- Pain-related Symptoms -->
+        <div class="question-group">
+            <h3>Pain and Body Issues</h3>
+            <label><input type="checkbox" name="symptoms" value="joint_pain"> Joint Pain</label>
+            <label><input type="checkbox" name="symptoms" value="back_pain"> Back Pain</label>
+            <label><input type="checkbox" name="symptoms" value="neck_pain"> Neck Pain</label>
+            <label><input type="checkbox" name="symptoms" value="knee_pain"> Knee Pain</label>
+            <label><input type="checkbox" name="symptoms" value="hip_joint_pain"> Hip Joint Pain</label>
+            <label><input type="checkbox" name="symptoms" value="muscle_weakness"> Muscle Weakness</label>
+            <label><input type="checkbox" name="symptoms" value="muscle_pain"> Muscle Pain</label>
+            <label><input type="checkbox" name="symptoms" value="cramps"> Cramps</label>
+            <label><input type="checkbox" name="symptoms" value="stiff_neck"> Stiff Neck</label>
+            <label><input type="checkbox" name="symptoms" value="pain_during_bowel_movements"> Pain During Bowel Movements</label>
+            <label><input type="checkbox" name="symptoms" value="pain_in_anal_region"> Pain in Anal Region</label>
+            <label><input type="checkbox" name="symptoms" value="weakness_in_limbs"> Weakness in Limbs</label>
+        </div>
+	<div class="question-group">
+    <h3>Pain and Musculoskeletal Symptoms</h3>
+    <label><input type="checkbox" name="symptoms" value="joint_pain"> Joint Pain</label>
+    <label><input type="checkbox" name="symptoms" value="muscle_wasting"> Muscle Wasting</label>
+    <label><input type="checkbox" name="symptoms" value="back_pain"> Back Pain</label>
+    <label><input type="checkbox" name="symptoms" value="neck_pain"> Neck Pain</label>
+    <label><input type="checkbox" name="symptoms" value="dizziness"> Dizziness</label>
+    <label><input type="checkbox" name="symptoms" value="cramps"> Cramps</label>
+    <label><input type="checkbox" name="symptoms" value="knee_pain"> Knee Pain</label>
+    <label><input type="checkbox" name="symptoms" value="hip_joint_pain"> Hip Joint Pain</label>
+    <label><input type="checkbox" name="symptoms" value="muscle_weakness"> Muscle Weakness</label>
+    <label><input type="checkbox" name="symptoms" value="stiff_neck"> Stiff Neck</label>
+    <label><input type="checkbox" name="symptoms" value="swelling_joints"> Swelling Joints</label>
+    <label><input type="checkbox" name="symptoms" value="movement_stiffness"> Movement Stiffness</label>
+    <label><input type="checkbox" name="symptoms" value="pain_in_anal_region"> Pain in Anal Region</label>
+    <label><input type="checkbox" name="symptoms" value="weakness_in_limbs"> Weakness in Limbs</label>
+    <label><input type="checkbox" name="symptoms" value="muscle_pain"> Muscle Pain</label>
+</div>
+
+<!-- Miscellaneous Symptoms -->
+<div class="question-group">
+    <h3>Miscellaneous Symptoms</h3>
+    <label><input type="checkbox" name="symptoms" value="weakness"> Weakness</label>
+    <label><input type="checkbox" name="symptoms" value="lethargy"> Lethargy</label>
+    <label><input type="checkbox" name="symptoms" value="loss_of_balance"> Loss of Balance</label>
+    <label><input type="checkbox" name="symptoms" value="shivering"> Shivering</label>
+    <label><input type="checkbox" name="symptoms" value="chills"> Chills</label>
+    <label><input type="checkbox" name="symptoms" value="malaise"> Malaise</label>
+    <label><input type="checkbox" name="symptoms" value="swelling_of_blood_vessels"> Swelling of Blood Vessels</label>
+    <label><input type="checkbox" name="symptoms" value="restlessness"> Restlessness</label>
+    <label><input type="checkbox" name="symptoms" value="anxiety"> Anxiety</label>
+    <label><input type="checkbox" name="symptoms" value="irritability"> Irritability</label>
+</div>
+
+        <!-- More groups go here (for mental health, heart issues, etc.) -->
+
+        <!-- Submission button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const symptomsOrder = [
+            'itching', 'skin_rash', 'nodal_skin_eruptions', 
+            'continuous_sneezing', 'shivering', 'chills', 'joint_pain', 
+            'stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting',
+            'vomiting', 'burning_micturition', 'spotting_urination', 
+            'fatigue', 'weight_gain', 'anxiety', 'cold_hands_and_feets', 
+            'mood_swings', 'weight_loss', 'restlessness', 'lethargy',
+            'patches_in_throat', 'irregular_sugar_level', 'cough', 
+            'high_fever', 'sunken_eyes', 'breathlessness', 'sweating', 
+            'dehydration', 'indigestion', 'headache', 'yellowish_skin',
+            'dark_urine', 'nausea', 'loss_of_appetite', 'pain_behind_the_eyes',
+            'back_pain', 'constipation', 'abdominal_pain', 'diarrhoea',
+            'mild_fever', 'yellow_urine', 'yellowing_of_eyes', 'acute_liver_failure',
+            'fluid_overload', 'swelling_of_stomach', 'swelled_lymph_nodes',
+            'malaise', 'blurred_and_distorted_vision', 'phlegm', 'throat_irritation',
+            'redness_of_eyes', 'sinus_pressure', 'runny_nose', 'congestion',
+            'chest_pain', 'weakness_in_limbs', 'fast_heart_rate', 'pain_during_bowel_movements',
+            'pain_in_anal_region', 'bloody_stool', 'irritation_in_anus', 'neck_pain',
+            'dizziness', 'cramps', 'bruising', 'obesity', 'swollen_legs', 'swollen_blood_vessels',
+            'puffy_face_and_eyes', 'enlarged_thyroid', 'brittle_nails', 'swollen_extremeties',
+            'excessive_hunger', 'extra_marital_contacts', 'drying_and_tingling_lips',
+            'slurred_speech', 'knee_pain', 'hip_joint_pain', 'muscle_weakness',
+            'stiff_neck', 'swelling_joints', 'movement_stiffness', 'spinning_movements',
+            'loss_of_balance', 'unsteadiness', 'weakness_of_one_body_side', 'loss_of_smell',
+            'bladder_discomfort', 'foul_smell_of urine', 'continuous_feel_of_urine',
+            'passage_of_gases', 'internal_itching', 'toxic_look_typhos', 'depression',
+            'irritability', 'muscle_pain', 'altered_sensorium', 'red_spots_over_body',
+            'belly_pain', 'abnormal_menstruation', 'dischromic_patches', 'watering_from_eyes',
+            'increased_appetite', 'polyuria', 'family_history', 'mucoid_sputum', 'rusty_sputum',
+            'lack_of_concentration', 'visual_disturbances', 'receiving_blood_transfusion',
+            'receiving_unsterile_injections', 'coma', 'stomach_bleeding', 'distention_of_abdomen',
+            'history_of_alcohol_consumption', 'fluid_overload', 'blood_in_sputum', 'prominent_veins_on_calf',
+            'palpitations', 'painful_walking', 'pus_filled_pimples', 'blackheads', 'scurring','skin_peeling','silver_like_dusting',
+			'small_dents_in_nails','inflammatory_nails','blister','red_sore_around_nose','yellow_crust_ooze'
+        ];
+
+        document.getElementById('symptomForm').addEventListener('submit',async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const checkedSymptoms = formData.getAll('symptoms');
+
+            // Create an array of 0s and 1s based on the order of symptoms
+            const resultArray = symptomsOrder.map(symptom => checkedSymptoms.includes(symptom) ? 1 : 0);
+            
+            console.log(JSON.stringify({ symptoms: resultArray }));
+            try {
+                const response = await fetch('http://localhost:4000/predict', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ symptoms: resultArray })
+                });
+                const result = await response.json();
+                
+
+                
+            } catch (error) {
+                console.log('Error:',error);
+            }
+            alert("Symptoms Array: " + resultArray.join(', '));
+        });
+    </script>
+
+</body>
+</html>

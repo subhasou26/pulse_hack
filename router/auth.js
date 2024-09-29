@@ -3,8 +3,11 @@ const router = express.Router();
 const UserHealthRecord = require('../models/UserHealthRecord'); // Assuming the model is stored in models/UserHealthRecord
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {auth}=require("../middleware/auth")
 // User signup (initial data)
-
+router.get("/login",(req,res)=>{
+  res.render("signup_login.ejs");
+});
 router.post("/login",async(req,res)=>{
     const { email, password } = req.body;
 
@@ -25,10 +28,20 @@ router.post("/login",async(req,res)=>{
       maxAge: 1 * 60 * 60 * 1000, // 5 hour
       sameSite: "Strict",
     });
-    res.status(200).json("user is signin");
+    
+    res.render("profile.ejs",{login_user});
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
+})
+router.get("/profile",auth,async(req,res)=>{
+  const user_id= req.user.id;
+  const login_user = await UserHealthRecord.findById(user_id);
+  res.render("profile.ejs",{login_user});
+  
+})
+router.get("/fitness",(req,res)=>{
+  res.render("fitnes.ejs");
 })
 router.post('/signup', async (req, res) => {
   try {
@@ -51,7 +64,7 @@ router.post('/signup', async (req, res) => {
     // Save the user to the database
     await newUser.save();
     
-    res.status(201).json({ message: 'User registered successfully', userId: newUser._id });
+    res.redirect("http://localhost:5000/");
   } catch (error) {
     res.status(500).json({ error: error });
   }
